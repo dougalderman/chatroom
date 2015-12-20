@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html ng-app="chatroom">
   <head>
+    <link rel="stylesheet" href="http://meyerweb.com/eric/tools/css/reset/reset.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -9,15 +10,26 @@
     <div class="main-container">
       <h1> DevMountain Chat Room </h1>
       <form ng-submit="postData()">
-        <input class="form-control text-box" type="text" ng-model="messageModel" placeholder="Message">
+        <input class="form-control text-box" type="text" ng-model="messageModel" placeholder="Compose Message">
       </form>
-      <div ng-repeat="message in messages">
-        <p>{{message.text}}</p>
-        <hr/>
+      <br><br>
+      <input type="text" placeholder="Find Text" ng-model="findText">
+      <br><br>
+      <select class="input-medium" ng-model="order">
+        <option value="+">Most recent posts on top</option>
+        <option value="-">Oldest posts on top</option>
+      </select>
+      <br><br>
+      <div class="message" ng-repeat="message in messages | filter: {text: findText}
+              | orderBy: order+createdAt">
+        <div class="text">{{message.text}}</div>
+        <div class="time" am-time-ago="message.createdAt"></div>
       </div>
     </div>
-    <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.19.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.js"></script>
+    <script src="http://www.parsecdn.com/js/parse-1.2.19.min.js"></script>
+    <script src ="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/angular.moment/1.0.0-beta.3/angular-moment.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/mainCtrl.js"></script>
     <script src="js/parseService.js"></script>
